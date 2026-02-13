@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Trisha ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body {
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+.page {
+    display:none;
+    background:rgba(255,255,255,0.95);
+    width:90%;
+    max-width:520px;
+    padding:35px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    animation:fadeIn 1s ease;
+    position:relative;
+}
+
+.active { display:block; }
+
+h1 {
+    font-family:'Great Vibes',cursive;
+    color:#ff4d6d;
+}
+
+.loveText {
+    font-family:'Pacifico',cursive;
+    font-size:32px;
+    color:#e6005c;
+    margin:20px 0;
+}
+
+button {
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;for-trishababei.netlify.app
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover {
+    transform:scale(1.05);
+    background:#e6005c;
+}
+
+.stickers {
+    font-size:26px;
+    margin:8px;
+}
+
+@keyframes fadeIn {
+    from{opacity:0; transform:scale(0.9);} 
+    to{opacity:1; transform:scale(1);} 
+}
+
+.hearts {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+.heart {
+    position:absolute;
+    color:#ff4d6d;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float {
+    0%{transform:translateY(100vh);opacity:0;}
+    20%{opacity:1;}
+    100%{transform:translateY(-10vh);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+<source src="lover-rock.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+<h1>My Trisha 💌</h1>
+<p>Trisha, I am really sorry for the fights these past few days. 🥺<br>
+You mean everything to me and I never want to hurt you. 💕</p>
+<div class="stickers">🥺 💖 🌸 🧸 💌</div>
+<button onclick="nextPage(2)">Next ➜</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+<h1>You & Me ❤️</h1>
+<div class="loveText">I LOVE YOU SOOO MUCH</div>
+<p>You are my peace, my happiness, my favorite person. ✨</p>
+<div class="stickers">🥰 💘 🌷 🫶 💞</div>
+<button onclick="nextPage(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 PROPOSAL -->
+<div class="page" id="page3">
+<h1>Will You Be My Valentine? 💍</h1>
+<div class="stickers">🌹 💝 💗 🧸 🌹</div>
+<button onclick="answerYes()">YES 💖</button>
+<button onclick="answerYes()">ALWAYS YES 💕</button>
+<p id="finalMessage" style="margin-top:20px;font-weight:600;color:#ff4d6d;"></p>
+</div>
+
+<div class="hearts" id="hearts"></div>
+
+<script>
+function nextPage(pageNumber){
+    document.getElementById('bgMusic').play();
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page'+pageNumber).classList.add('active');
+}
+
+function answerYes(){
+    document.getElementById('finalMessage').innerText="Yaaay! Forever Yours, Mahathir ❤️";
+    launchFireworks();
+}
+
+// Fireworks Celebration
+function launchFireworks(){
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.pointerEvents = 'none';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const particles = [];
+
+    function createFirework(){
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height / 2;
+        for(let i=0;i<80;i++){
+            particles.push({
+                x:x,
+                y:y,
+                radius:2,
+                color:`hsl(${Math.random()*360},100%,60%)`,
+                speedX:(Math.random()-0.5)*6,
+                speedY:(Math.random()-0.5)*6,
+                alpha:1
+            });
+        }
+    }
+
+    function animate(){
+        ctx.fillStyle='rgba(0,0,0,0.1)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+
+        particles.forEach((p,index)=>{
+            p.x+=p.speedX;
+            p.y+=p.speedY;
+            p.alpha-=0.01;
+
+            ctx.globalAlpha=p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+            ctx.fillStyle=p.color;
+            ctx.fill();
+
+            if(p.alpha<=0){ particles.splice(index,1); }
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    for(let i=0;i<5;i++){
+        setTimeout(createFirework,i*500);
+    }
+
+    animate();
+
+    setTimeout(()=>{
+        canvas.remove();
+    },5000);
+}
+
+function createHeart(){
+    const heart=document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerText='❤';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.fontSize=Math.random()*10+15+'px';
+    heart.style.animationDuration=Math.random()*3+3+'s';
+    document.getElementById('hearts').appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,400);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Trisha ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body {
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+.page {
+    display:none;
+    background:rgba(255,255,255,0.95);
+    width:90%;
+    max-width:520px;
+    padding:35px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    animation:fadeIn 1s ease;
+    position:relative;
+}
+
+.active { display:block; }
+
+h1 {
+    font-family:'Great Vibes',cursive;
+    color:#ff4d6d;
+}
+
+.loveText {
+    font-family:'Pacifico',cursive;
+    font-size:32px;
+    color:#e6005c;
+    margin:20px 0;
+}
+
+button {
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:#ff4d6d;
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover {
+    transform:scale(1.05);
+    background:#e6005c;
+}
+
+.stickers {
+    font-size:26px;
+    margin:8px;
+}
+
+@keyframes fadeIn {
+    from{opacity:0; transform:scale(0.9);} 
+    to{opacity:1; transform:scale(1);} 
+}
+
+.hearts {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+.heart {
+    position:absolute;
+    color:#ff4d6d;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float {
+    0%{transform:translateY(100vh);opacity:0;}
+    20%{opacity:1;}
+    100%{transform:translateY(-10vh);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+<source src="lover-rock.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+<h1>My Trisha 💌</h1>
+<p>Trisha, I am really sorry for the fights these past few days. 🥺<br>
+You mean everything to me and I never want to hurt you. 💕</p>
+<div class="stickers">🥺 💖 🌸 🧸 💌</div>
+<button onclick="nextPage(2)">Next ➜</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+<h1>You & Me ❤️</h1>
+<div class="loveText">I LOVE YOU SOOO MUCH</div>
+<p>You are my peace, my happiness, my favorite person. ✨</p>
+<div class="stickers">🥰 💘 🌷 🫶 💞</div>
+<button onclick="nextPage(3)">Next ➜</button>
+</div>
+
+<!-- PAGE 3 PROPOSAL -->
+<div class="page" id="page3">
+<h1>Will You Be My Valentine? 💍</h1>
+<div class="stickers">🌹 💝 💗 🧸 🌹</div>
+<button onclick="answerYes()">YES 💖</button>
+<button onclick="answerYes()">ALWAYS YES 💕</button>
+<p id="finalMessage" style="margin-top:20px;font-weight:600;color:#ff4d6d;"></p>
+</div>
+
+<div class="hearts" id="hearts"></div>
+
+<script>
+function nextPage(pageNumber){
+    document.getElementById('bgMusic').play();
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page'+pageNumber).classList.add('active');
+}
+
+function answerYes(){
+    document.getElementById('finalMessage').innerText="Yaaay! Forever Yours, Mahathir ❤️";
+    launchFireworks();
+}
+
+// Fireworks Celebration
+function launchFireworks(){
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.pointerEvents = 'none';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const particles = [];
+
+    function createFirework(){
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height / 2;
+        for(let i=0;i<80;i++){
+            particles.push({
+                x:x,
+                y:y,
+                radius:2,
+                color:`hsl(${Math.random()*360},100%,60%)`,
+                speedX:(Math.random()-0.5)*6,
+                speedY:(Math.random()-0.5)*6,
+                alpha:1
+            });
+        }
+    }
+
+    function animate(){
+        ctx.fillStyle='rgba(0,0,0,0.1)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+
+        particles.forEach((p,index)=>{
+            p.x+=p.speedX;
+            p.y+=p.speedY;
+            p.alpha-=0.01;
+
+            ctx.globalAlpha=p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+            ctx.fillStyle=p.color;
+            ctx.fill();
+
+            if(p.alpha<=0){ particles.splice(index,1); }
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    for(let i=0;i<5;i++){
+        setTimeout(createFirework,i*500);
+    }
+
+    animate();
+
+    setTimeout(()=>{
+        canvas.remove();
+    },5000);
+}
+
+function createHeart(){
+    const heart=document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerText='❤';
+    heart.style.left=Math.random()*100+'vw';
+    heart.style.fontSize=Math.random()*10+15+'px';
+    heart.style.animationDuration=Math.random()*3+3+'s';
+    document.getElementById('hearts').appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,400);
+</script>
+
+</body>
+</html>
